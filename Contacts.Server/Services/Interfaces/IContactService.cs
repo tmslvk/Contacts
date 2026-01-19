@@ -5,7 +5,7 @@ namespace Contacts.Server.Services.Interfaces
 {
     public interface IContactService
     {
-        Task<List<Contact>> GetAll(ContactQueryDTO query, CancellationToken cancellationToken);
+        Task<List<ContactResponseDTO>> GetAll(ContactQueryDTO query, CancellationToken cancellationToken);
         Task<Contact> GetById(Guid id, CancellationToken cancellationToken);
         Task<Contact> Create(ContactDTO dto, CancellationToken cancellationToken);
         Task Update(Guid id, ContactUpdateDTO dto, CancellationToken cancellationToken);

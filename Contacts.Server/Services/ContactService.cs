@@ -18,10 +18,21 @@ namespace Contacts.Server.Services
             _validator = new ContactValidator();
         }
 
-        public async Task<List<Contact>> GetAll(ContactQueryDTO query, CancellationToken cancellationToken)
+        public async Task<List<ContactResponseDTO>> GetAll(ContactQueryDTO query, CancellationToken cancellationToken)
         {
-            return await _contactRepository.GetAllAsync(query, cancellationToken);
+            var contacts = await _contactRepository.GetAllAsync(query, cancellationToken);
+
+            return contacts.Select(c => new ContactResponseDTO
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                JobTitle = c.JobTitle,
+                BirthDate = c.BirthDate,
+                PhoneNumbers = c.PhoneNumbers.Select(p => p.Number).ToList()
+            }).ToList();
         }
+
 
         public async Task<Contact> GetById(Guid id, CancellationToken cancellationToken)
         {
@@ -35,13 +46,12 @@ namespace Contacts.Server.Services
             if (errors.Any())
                 throw new ValidationException(string.Join("; ", errors));
 
-            string fullname = $"{dto.LastName} {dto.FirstName}";
-
             var phoneNumbers = dto.PhoneNumbers.Select(pn => new PhoneNumber { Number = pn }).ToList();
 
             var contact = new Contact
             {
-                Name = fullname,
+                LastName = dto.LastName,
+                FirstName = dto.FirstName,
                 JobTitle = dto.JobTitle,
                 BirthDate = dto.BirthDate,
                 PhoneNumbers = phoneNumbers,
@@ -64,9 +74,10 @@ namespace Contacts.Server.Services
             if (errors.Any())
                 throw new ValidationException(string.Join("; ", errors));
 
-            string fullname = $"{dto.LastName} {dto.FirstName}";
 
-            contact.Name = fullname;
+
+            contact.LastName = dto.LastName;
+            contact.FirstName = dto.FirstName;
             contact.JobTitle = dto.JobTitle;
             contact.BirthDate = dto.BirthDate;
 
