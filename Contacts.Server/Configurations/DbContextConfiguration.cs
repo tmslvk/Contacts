@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Contacts.Server.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Contacts.Server.Configurations
 {

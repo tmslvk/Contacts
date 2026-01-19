@@ -1,5 +1,6 @@
 using Contacts.Server;
 using Contacts.Server.Configurations;
+using Contacts.Server.Context;
 using Contacts.Server.Middleware;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
@@ -19,11 +20,14 @@ builder.Services
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
-    db.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var db = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+//    db.Database.Migrate();
+
+//    var seeder = new DbSeeder(db);
+//    seeder.Seed();
+//}
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -32,11 +36,7 @@ app.UseSwaggerConfiguration();
 
 app.UseMiddleware<ErrorHandler>();
 
-app.UseHttpsRedirection();
 app.UseCors("AllowAll");
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 

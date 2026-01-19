@@ -1,6 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-
-namespace Contacts.Server.Configurations
+﻿namespace Contacts.Server.Configurations
 {
     public static class SwaggerConfiguration
     {
