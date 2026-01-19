@@ -1,4 +1,5 @@
-﻿using Contacts.Server.DTO;
+﻿using Contacts.Server.Context;
+using Contacts.Server.DTO;
 using Contacts.Server.Exceptions;
 using Contacts.Server.Model;
 using Contacts.Server.Repositories.Interfaces;
@@ -19,25 +20,28 @@ namespace Contacts.Server.Repositories
         {
             IQueryable<Contact> contactsQuery = _db.Contacts
                 .AsNoTracking()
-                .Include(n => n.Name)
-                .Include(n => n.JobTitle)
-                .Include(n => n.PhoneNumbers);
+                .Include(c => c.PhoneNumbers);
 
+            // фильтры
             if (!string.IsNullOrWhiteSpace(query.Search))
             {
-                contactsQuery = contactsQuery.Where(n =>
-                    n.Name.Contains(query.Search) ||
-                    n.JobTitle.Contains(query.Search));
+                contactsQuery = contactsQuery.Where(c =>
+                    c.FirstName.Contains(query.Search) ||
+                    c.LastName.Contains(query.Search) ||
+                    c.JobTitle.Contains(query.Search));
             }
 
-            contactsQuery = contactsQuery.OrderByDescending(n => n.BirthDate);
-
+            // сортировка и пагинация
             contactsQuery = contactsQuery
+                .OrderByDescending(c => c.BirthDate)
                 .Skip((query.Page - 1) * query.PageSize)
                 .Take(query.PageSize);
 
             return await contactsQuery.ToListAsync(cancellationToken);
         }
+
+
+
 
         public async Task<Contact?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {

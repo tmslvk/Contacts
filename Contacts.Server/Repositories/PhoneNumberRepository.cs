@@ -1,4 +1,4 @@
-﻿using Contacts.Server;
+﻿using Contacts.Server.Context;
 using Contacts.Server.Model;
 using Contacts.Server.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
