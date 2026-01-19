@@ -20,7 +20,6 @@
       </header>
 
       <section class="modal-card-body">
-        <!-- Имя -->
         <div class="field">
           <label class="label">Имя</label>
           <div class="control">
@@ -31,7 +30,6 @@
           </div>
         </div>
 
-        <!-- Фамилия -->
         <div class="field">
           <label class="label">Фамилия</label>
           <div class="control">
@@ -42,7 +40,6 @@
           </div>
         </div>
 
-        <!-- Должность -->
         <div class="field">
           <label class="label">Должность</label>
           <div class="control">
@@ -53,7 +50,6 @@
           </div>
         </div>
 
-        <!-- Номер телефона -->
         <div class="field">
           <label class="label">Номер телефона</label>
           <div class="control">
@@ -64,7 +60,6 @@
           </div>
         </div>
 
-        <!-- Дата рождения -->
         <div class="field">
           <label class="label">Дата рождения</label>
           <div class="control">
@@ -76,7 +71,6 @@
           </div>
         </div>
 
-        <!-- Ошибки -->
         <p
           v-if="errorMessage"
           class="has-text-danger"
@@ -104,17 +98,14 @@ import { reactive, ref, watch } from "vue";
 import axios from "axios";
 import Datepicker from "vue3-datepicker";
 
-// Props и emits
 const props = defineProps({
   modelValue: Boolean,
-  contact: Object, // объект контакта для редактирования
+  contact: Object,
 });
 const emit = defineEmits(["update:modelValue", "posted"]);
 
-// Ошибки формы
 const errorMessage = ref("");
 
-// Данные формы (reactive)
 const contact = reactive({
   firstName: "",
   lastName: "",
@@ -123,7 +114,6 @@ const contact = reactive({
   birthDate: null,
 });
 
-// Синхронизация формы с props.contact
 watch(
   () => props.contact,
   (newVal) => {
@@ -148,7 +138,6 @@ watch(
   { immediate: true }
 );
 
-// Форматирование даты для Datepicker
 const customDateFormat = (date) => {
   if (!date) return "";
   const d = new Date(date);
@@ -159,10 +148,8 @@ const customDateFormat = (date) => {
   });
 };
 
-// Закрытие модалки
 const close = () => emit("update:modelValue", false);
 
-// Валидация формы
 const validateForm = () => {
   if (
     !contact.firstName ||
@@ -178,7 +165,6 @@ const validateForm = () => {
   return true;
 };
 
-// Отправка формы на сервер
 const submit = async () => {
   if (!validateForm()) return;
 

@@ -18,7 +18,6 @@
       </header>
 
       <section class="modal-card-body">
-        <!-- Имя -->
         <div class="field">
           <label class="label">Имя</label>
           <input
@@ -26,8 +25,6 @@
             v-model="form.firstName"
           />
         </div>
-
-        <!-- Фамилия -->
         <div class="field">
           <label class="label">Фамилия</label>
           <input
@@ -36,7 +33,6 @@
           />
         </div>
 
-        <!-- Номера телефонов -->
         <div class="field">
           <label class="label">Номера телефонов</label>
           <div
@@ -69,7 +65,6 @@
           </button>
         </div>
 
-        <!-- Должность -->
         <div class="field">
           <label class="label">Должность</label>
           <input
@@ -78,7 +73,6 @@
           />
         </div>
 
-        <!-- Дата рождения -->
         <div class="field">
           <label class="label">Дата рождения</label>
           <Datepicker
@@ -88,7 +82,6 @@
           />
         </div>
 
-        <!-- Ошибки -->
         <p
           class="has-text-danger mt-2"
           v-if="errorMessage"
@@ -125,7 +118,6 @@ const customDateFormat = "dd.MM.yyyy";
 const errorMessage = ref("");
 const phoneError = ref("");
 
-// Форма
 const form = reactive({
   firstName: "",
   lastName: "",
@@ -134,7 +126,6 @@ const form = reactive({
   birthDate: null,
 });
 
-// Синхронизация с props.contact
 watch(
   () => props.contact,
   (val) => {
@@ -156,7 +147,6 @@ watch(
   { immediate: true }
 );
 
-// Добавление/удаление телефона
 const addPhoneNumber = () => {
   if (form.phoneNumbers.length >= 3) return;
   form.phoneNumbers.push({ number: "" });
@@ -166,7 +156,6 @@ const removePhoneNumber = (index) => {
   form.phoneNumbers.splice(index, 1);
 };
 
-// Валидация телефонов
 const validatePhones = () => {
   phoneError.value = "";
   const phoneRegex = /^\+?\d{10,15}$/;
@@ -179,10 +168,8 @@ const validatePhones = () => {
   return true;
 };
 
-// Закрытие
 const close = () => emit("update:modelValue", false);
 
-// Сохранение
 const save = async () => {
   errorMessage.value = "";
 
@@ -207,7 +194,7 @@ const save = async () => {
     const payload = {
       firstName: form.firstName,
       lastName: form.lastName,
-      phoneNumbers: form.phoneNumbers.map((p) => p.number), // <-- массив строк
+      phoneNumbers: form.phoneNumbers.map((p) => p.number),
       jobTitle: form.jobTitle,
       birthDate: form.birthDate.toISOString(),
     };
@@ -217,7 +204,6 @@ const save = async () => {
       payload
     );
 
-    // Отправляем полный объект, включая id и обновленные телефоны
     emit("saved", {
       ...props.contact,
       ...payload,

@@ -29,7 +29,7 @@ body {
 
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* Центрируем Feed по горизонтали */
+  justify-content: center;
   padding: 20px;
   box-sizing: border-box;
 }

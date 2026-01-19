@@ -13,7 +13,13 @@
     "lint": "eslint . --fix --cache"
   },
   "dependencies": {
-    "vue": "^3.5.26"
+    "axios": "^1.13.2",
+    "bulma": "^1.0.4",
+    "date-fns": "^4.1.0",
+    "npm": "^11.7.0",
+    "vue": "^3.5.26",
+    "vue3-datepicker": "^0.4.0",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

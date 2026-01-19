@@ -1,6 +1,5 @@
 <template>
   <div class="card my-5 contact-card">
-    <!-- HEADER -->
     <header class="card-header is-flex is-justify-content-space-between is-align-items-center px-4 py-3">
       <div class="card-header-title p-0 is-flex is-flex-direction-column">
         <h3 class="title is-3 mb-1">
@@ -35,11 +34,8 @@
         </button>
       </div>
     </header>
-
-    <!-- CONTENT -->
     <div class="card-content">
       <div class="content">
-        <!-- PHONE NUMBERS -->
         <p><strong>Номера телефонов:</strong></p>
         <ul>
           <li
@@ -49,8 +45,6 @@
             {{ phone.number }}
           </li>
         </ul>
-
-        <!-- BIRTH DATE -->
         <p class="mt-3">
           <strong>Дата рождения:</strong>
           {{ formattedBirthDate || "—" }}
@@ -64,7 +58,6 @@
 import { defineProps, defineEmits, computed } from "vue";
 import axios from "axios";
 
-/* PROPS */
 const props = defineProps({
   contact: {
     type: Object,
@@ -72,10 +65,8 @@ const props = defineProps({
   },
 });
 
-/* EMITS */
 const emit = defineEmits(["edit", "deleted"]);
 
-/* COMPUTED */
 const formattedBirthDate = computed(() => {
   if (!props.contact.birthDate) return "";
   const date = new Date(props.contact.birthDate);
@@ -86,7 +77,6 @@ const formattedBirthDate = computed(() => {
   });
 });
 
-/* METHODS */
 const editContact = () => {
   emit("edit", props.contact);
 };

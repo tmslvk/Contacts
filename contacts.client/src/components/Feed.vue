@@ -1,6 +1,5 @@
 <template>
   <div class="feed-page container mt-5">
-    <!-- Фильтрация, поиск и кнопка создания -->
     <div class="field is-grouped is-grouped-multiline mb-4">
       <div class="control">
         <div class="select">
@@ -38,7 +37,6 @@
           name="fade"
           tag="div"
         >
-          <!-- Если есть контакты после фильтра -->
           <template v-if="filteredContacts.length > 0">
             <ContactCard
               v-for="contact in filteredContacts"
@@ -49,7 +47,6 @@
             />
           </template>
 
-          <!-- Если ничего не найдено -->
           <p
             v-else
             class="has-text-centered mt-4"
@@ -60,7 +57,6 @@
       </div>
     </section>
 
-    <!-- Пагинация -->
     <div
       v-if="hasMore"
       class="has-text-centered mt-4"
@@ -73,7 +69,6 @@
       </button>
     </div>
 
-    <!-- Лоадер -->
     <div
       v-if="loading"
       class="has-text-centered my-4"
@@ -81,7 +76,6 @@
       <span class="loader"></span>
     </div>
 
-    <!-- Модальные окна -->
     <CreateContactModal
       v-if="modalVisible"
       :modelValue="modalVisible"
@@ -120,7 +114,6 @@ const editModalVisible = ref(false);
 const selectedContact = ref(null);
 const searchQuery = ref("");
 
-// Загрузка контактов с сервера
 const loadContacts = async () => {
   if (!hasMore.value) return;
   store.commit("contacts/setLoading", true);
@@ -133,7 +126,6 @@ const loadContacts = async () => {
 
     let contacts = Array.isArray(res.data) ? res.data : [];
 
-    // Нормализация телефонов и даты
     contacts = contacts.map((c) => ({
       ...c,
       phoneNumbers:
@@ -155,7 +147,6 @@ const loadContacts = async () => {
   }
 };
 
-// Фильтрация поиска
 const filteredContacts = computed(() => {
   const list = store.state.contacts?.contacts || [];
   return list.filter((c) => {
@@ -168,7 +159,6 @@ const filteredContacts = computed(() => {
   });
 });
 
-// Сброс фида
 const resetFeed = () => {
   page.value = 1;
   hasMore.value = true;
@@ -176,7 +166,6 @@ const resetFeed = () => {
   loadContacts();
 };
 
-// Открытие модалок
 const openCreateModal = () => {
   selectedContact.value = null;
   modalVisible.value = true;
@@ -187,7 +176,6 @@ const openEditModal = (contact) => {
   editModalVisible.value = true;
 };
 
-// Обновление/добавление контакта
 const onContactPosted = (contact) => {
   contact.phoneNumbers =
     contact.phoneNumbers?.map((p) =>
@@ -206,7 +194,6 @@ const onContactPosted = (contact) => {
   editModalVisible.value = false;
 };
 
-// Удаление контакта
 const removeContact = (id) => {
   store.commit(
     "contacts/setContacts",
@@ -214,7 +201,6 @@ const removeContact = (id) => {
   );
 };
 
-// Статус загрузки
 const loading = computed(() => store.state.contacts?.loading ?? false);
 
 onMounted(() => {
@@ -249,34 +235,30 @@ onMounted(() => {
   }
 }
 
-/* Feed.vue */
 .feed-page {
   width: 100%;
-  max-width: 1400px; /* Увеличили максимально допустимую ширину */
+  max-width: 1400px;
   margin: 0 auto;
   background: white;
   border-radius: 10px;
-  padding: 30px; /* побольше внутренних отступов */
+  padding: 30px;
   box-sizing: border-box;
   min-height: 80vh;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* Контейнеры внутри Feed */
 .feed-container .container {
   width: 100%;
 }
 
-/* Карточки контактов */
 .contact-card {
   width: 100%;
   margin-bottom: 20px;
 }
 
-/* Для модалок */
 .modal-card {
-  width: 80vw; /* ширина модалки 80% от экрана */
-  max-width: 800px; /* не больше 800px */
+  width: 80vw;
+  max-width: 800px;
 }
 
 .fade-enter-active,
