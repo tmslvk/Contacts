@@ -1,13 +1,20 @@
 <template>
   <div class="card my-5 contact-card">
     <!-- HEADER -->
-    <header class="card-header is-flex is-justify-content-space-between is-align-items-center px-4 py-3">
+    <header class="card-header is-flex is-justify-content-space-between">
       <div class="card-header-title p-0 is-flex is-flex-direction-column">
-        <h3 class="title is-3 mb-1">
-          {{ contact.firstName }} {{ contact.lastName }}
+        <h3 class="title is-4 mb-1">
+          {{ contact.lastName }}
         </h3>
-        <p />
-        <p class="subtitle is-6 mb-0">{{ contact.jobTitle || "—" }}</p>
+
+        <h4 class="title is-5 mb-1">
+          {{ contact.firstName }}
+        </h4>
+
+        <p class="subtitle is-6 mb-0">
+          {{ contact.jobTitle || "—" }}
+        </p>
+
       </div>
 
       <div
@@ -20,7 +27,10 @@
           title="Редактировать"
         >
           <span class="icon has-text-info">
-            <i class="fas fa-pen"></i>
+            <i class="fas fa-pen">
+              <p>Change</p>
+            </i>
+
           </span>
         </button>
 
@@ -30,8 +40,11 @@
           title="Удалить"
         >
           <span class="icon has-text-danger">
-            <i class="fas fa-trash"></i>
+            <i class="fas fa-trash">
+              <p>Delete</p>
+            </i>
           </span>
+
         </button>
       </div>
     </header>
@@ -113,12 +126,28 @@ const deleteContact = async () => {
   border-radius: 8px;
 }
 
+.card-header {
+  position: relative;
+  padding-left: 1rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+
+.buttons {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}
+
 .card-header-title h3 {
   margin-bottom: 0.25rem;
 }
 
-.card-header-title p {
-  margin-bottom: 0;
+.card-header-title {
+  text-align: left;
+  align-items: flex-start;
+  flex-shrink: 0;
+  margin-right: 4rem;
 }
 
 ul {
